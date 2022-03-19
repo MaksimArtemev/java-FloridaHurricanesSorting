@@ -32,7 +32,7 @@ public class GUI {
    * @param linesToPrint
    */
   protected void hurricaneDataDialogueBox(List<String> linesToPrint) {
-
+	  JOptionPane.showInputDialog(linesToPrint);
   }
 
   /**
@@ -86,9 +86,11 @@ public class GUI {
     double averageCategory = Logic.averageCategory();
 
     // Show dialogue box:
-
     // Average Storm Category by Saffir-Simpson Scale
-    // Average storm category is: averageCategory (variable from above)
+    // Average storm category is: averageCategory
+    JOptionPane.showInputDialog("Major Florida Hurricanes 1950-2020\n\n" + "Average Storm Category by Saffir-Simpson Scale\n\n" +
+    		"Average storm category is: " + averageCategory);
+
   }
 
   /**
@@ -99,15 +101,19 @@ public class GUI {
     int stormCount = Logic.mostActiveYearCount();
 
     if (mostActiveYears.size() == 1) {
-      // Show dialogue box:
-      // Most Active Year
-      // Most active storm year is {mostActiveYears.get(0)}
-      // having {stormCount} named storms
-    } else if (mostActiveYears.size() == 2) {
+        // Show dialogue box:
+        // Most Active Year
+        // Most active storm year is {mostActiveYears.get(0)}
+        // having {stormCount} named storms
+    	JOptionPane.showInputDialog("Major Florida Hurricanes 1950-2020\n\n" + "Most Active Year\n\n" + "Most active storm year is tied with " +
+    			 mostActiveYears.get(0) + "\n and " + mostActiveYears.get(1) + " each having " + stormCount + "named storms");
+    } else if (mostActiveYears.size() == 2) {   //???????????????????????????????????????????????????????
       // Show dialogue box:
       // Most Active Year
       // Most active storm year is tied with {mostActiveYears.get(0)}
       // and {mostActiveYears.get(1)} each having {stormCount} named storms
+    	JOptionPane.showInputDialog("Major Florida Hurricanes 1950-2020\n\n" + "Most Active Year\n\n" + "Most active storm year is tied with " +
+   			 mostActiveYears.get(0) + "\n and " + mostActiveYears.get(1) + " each having " + stormCount + "named storms");
     } else {
       // Didn't seem to say what to do here. Up to you on what to do here.
     }
@@ -131,6 +137,9 @@ public class GUI {
     // Total category 4 hurricanes: {categoryTotals[3]}
     // ...
     // Total category 1 hurricanes: {categoryTotals[0]}
+	JOptionPane.showInputDialog("Major Florida Hurricanes 1950-2020\n\n" + "Aggregate Totals by category (Saffir-Simpson scale)\n\n" + "Total number of major hurricanes listed: " +
+			totalStorms + "\n\n Total category 5 hurricanes:  " + categoryTotals[4] + "\nTotal category 4 hurricanes: " + categoryTotals[3] + "\nTotal category 3 hurricanes: " + categoryTotals[2] +
+			"\nTotal category 2 hurricanes: " + categoryTotals[1] + "\nTotal category 1 hurricanes: " + categoryTotals[0]);
 
   }
 
@@ -150,6 +159,7 @@ public class GUI {
       stormCount = yearAggregations.get(year);
 
       // dialogue: {year} \t {stormCount}
+  	JOptionPane.showInputDialog("Major Florida Hurricanes 1950-2020\n\n" + "Aggregate Totals by Year\n\n" + "Year\t Number of Storms" + year + "\n " + stormCount);
     }
   }
 
@@ -187,7 +197,7 @@ public class GUI {
 
     switch (userChoice) {
       case (1):
-        outputHurricanesByStormCategory();
+    	  outputHurricanesByStormName();
         break;
       case (2):
         outputHurricanesByStormCategory();

@@ -17,11 +17,9 @@ public class GUI {
   /**
    * Helper that asks the user to type in 1 if they want ascending order, or 2
    * if they want descending order. Given the prompt
-   * 
-   * @return True if the user wants to sort the list in ascending order
    */
   protected boolean getSortOrder(String prompt) {
-    return true; // TODO: Complete me.
+    return true;
   }
 
   /**
@@ -34,13 +32,29 @@ public class GUI {
   protected void hurricaneDataDialogueBox(List<String> linesToPrint) {
 	  JOptionPane.showInputDialog(linesToPrint);
   }
-
+  
   /**
    * Menu option 1
    */
+  /*
+  protected void outputHurricanesByStormName() {
+    /*String userOrderChoice =  JOptionPane.showInputDialog("Major Florida Hurricanes 1950-2020\n\nSort by Hurricane Name\n\n" + 
+    "Press 1 for Ascending Order\nPress 2 for Decending Order");
+    Boolean sortOrder;
+    if(userOrderChoice == "1"){
+      sortOrder = true;
+    }else if(userOrderChoice == "2"){
+      sortOrder = false;
+    }
+    boolean sortOrder = getSortOrder(userOrderChoice);
+    Logic.sortHurricanesBy("Hurricane Name", sortOrder);
+    List<String> hurricaneData = Logic.serializeHurricanes();
+    WriteToFile.writeToFile("SortByName.txt", hurricaneData);
+    hurricaneDataDialogueBox(hurricaneData);
+  }*/
   protected void outputHurricanesByStormName() {
     boolean sortOrder = getSortOrder("Sort by Hurricane Name");
-    Logic.sortHurricanesBy("name", sortOrder);
+    Logic.sortHurricanesBy("Hurricane Name", sortOrder);
     List<String> hurricaneData = Logic.serializeHurricanes();
     WriteToFile.writeToFile("SortByName.txt", hurricaneData);
     hurricaneDataDialogueBox(hurricaneData);
@@ -51,7 +65,7 @@ public class GUI {
    */
   protected void outputHurricanesByStormCategory() {
     boolean sortOrder = getSortOrder("Sort by Hurricane Category");
-    Logic.sortHurricanesBy("category", sortOrder);
+    Logic.sortHurricanesBy("Hurricane Category", sortOrder);
     List<String> hurricaneData = Logic.serializeHurricanes();
     WriteToFile.writeToFile("SortByCategory.txt", hurricaneData);
     hurricaneDataDialogueBox(hurricaneData);
@@ -62,7 +76,7 @@ public class GUI {
    */
   protected void outputHurricanesByStormYear() {
     boolean sortOrder = getSortOrder("Sort by Hurricane Year");
-    Logic.sortHurricanesBy("year", sortOrder);
+    Logic.sortHurricanesBy("Year", sortOrder);
     List<String> hurricaneData = Logic.serializeHurricanes();
     WriteToFile.writeToFile("SortByYear.txt", hurricaneData);
     hurricaneDataDialogueBox(hurricaneData);
@@ -73,7 +87,7 @@ public class GUI {
    */
   protected void outputHurricanesByStormMonth() {
     boolean sortOrder = getSortOrder("Sort by Hurricane Month");
-    Logic.sortHurricanesBy("month", sortOrder);
+    Logic.sortHurricanesBy("Month", sortOrder);
     List<String> hurricaneData = Logic.serializeHurricanes();
     WriteToFile.writeToFile("SortByMonth.txt", hurricaneData);
     hurricaneDataDialogueBox(hurricaneData);
@@ -84,13 +98,13 @@ public class GUI {
    */
   protected void showAverageCategory() {
     double averageCategory = Logic.averageCategory();
-
+    double tempAverageCategory = Math.round(averageCategory * 10) / 10.0;
     // Show dialogue box:
     // Average Storm Category by Saffir-Simpson Scale
     // Average storm category is: averageCategory
     JOptionPane.showInputDialog("Major Florida Hurricanes 1950-2020\n\n" + "Average Storm Category by Saffir-Simpson Scale\n\n" +
-    		"Average storm category is: " + averageCategory);
-
+    		"Average storm category is: " + tempAverageCategory);
+  
   }
 
   /**
@@ -105,18 +119,18 @@ public class GUI {
         // Most Active Year
         // Most active storm year is {mostActiveYears.get(0)}
         // having {stormCount} named storms
-    	JOptionPane.showInputDialog("Major Florida Hurricanes 1950-2020\n\n" + "Most Active Year\n\n" + "Most active storm year is tied with " +
-    			 mostActiveYears.get(0) + "\n and " + mostActiveYears.get(1) + " each having " + stormCount + "named storms");
-    } else if (mostActiveYears.size() == 2) {   //???????????????????????????????????????????????????????
+    	JOptionPane.showInputDialog("Major Florida Hurricanes 1950-2020\n\n" + "Most Active Year\n\n" + "Most active storm year is " +
+    			 mostActiveYears.get(0) + "\nwhich has "+ stormCount + " " + "named storms");
+    } else if (mostActiveYears.size() == 2) {
       // Show dialogue box:
       // Most Active Year
       // Most active storm year is tied with {mostActiveYears.get(0)}
       // and {mostActiveYears.get(1)} each having {stormCount} named storms
     	JOptionPane.showInputDialog("Major Florida Hurricanes 1950-2020\n\n" + "Most Active Year\n\n" + "Most active storm year is tied with " +
    			 mostActiveYears.get(0) + "\n and " + mostActiveYears.get(1) + " each having " + stormCount + "named storms");
-    } else {
-      // Didn't seem to say what to do here. Up to you on what to do here.
-    }
+    } //else {
+      
+    //}
   }
 
   /**
@@ -155,16 +169,22 @@ public class GUI {
     // Year \t Number of Storms
 
     Integer stormCount;
+    String yearStormCount = "";
     for (Integer year : yearAggregations.keySet()) {
       stormCount = yearAggregations.get(year);
 
-      // dialogue: {year} \t {stormCount}
-  	JOptionPane.showInputDialog("Major Florida Hurricanes 1950-2020\n\n" + "Aggregate Totals by Year\n\n" + "Year\t Number of Storms" + year + "\n " + stormCount);
+      String strYear = year.toString();
+      String strStormCount = stormCount.toString();
+      yearStormCount += strYear + "          " + strStormCount + "\n";
     }
+    //yearStormCount = String.format("%-20s %s%n", year, stormCount);
+    JOptionPane.showInputDialog("Major Florida Hurricanes 1950-2020\n\n" + "Aggregate Totals by Year\n\n" + "Year           Number of Storms\n\n" + yearStormCount);
+
   }
 
   protected int mainMenu() {
-    // Prompt user to input activity number he wants to perform.
+    
+	  // Prompt user to input activity number he wants to perform.
     String rawUserChoice = JOptionPane.showInputDialog("Florida Major Hurricanes 1950-2020\n\n"
         + "Press 1 to Sort by Storm Name\n" + "Press 2 to Sort by Storm Category\n" +
         "Press 3 to Sort by Storm Year\n" + "Press 4 to Sort by Storm Month\n"
@@ -182,7 +202,7 @@ public class GUI {
     }
 
     while (userChoice < 1 || userChoice > 9) {
-      // Reprompt user to input activity number he want to perform.
+      // Reprompt user to input activity number he wants to perform.
       rawUserChoice = JOptionPane.showInputDialog("Enter a POSITIVE number between 1 and 9.");
       userChoice = Integer.parseInt(rawUserChoice);
     }
@@ -193,41 +213,46 @@ public class GUI {
   // MarkupCalculator:getUserInput
   // Get user input
   public void run() throws IOException {
-    int userChoice = mainMenu();
-
-    switch (userChoice) {
-      case (1):
-    	  outputHurricanesByStormName();
-        break;
-      case (2):
-        outputHurricanesByStormCategory();
-        break;
-      case (3):
-        outputHurricanesByStormYear();
-        break;
-      case (4):
-        outputHurricanesByStormMonth();
-        break;
-      case (6):
-        showAverageCategory();
-        break;
-      case (7):
-        showAggregateByCategory();
-        break;
-      case (8):
-        showAggregateByYear();
-        break;
-      case (9):
-        System.exit(0);
-        break;
-    }
-
+	  int userChoice = mainMenu();
+	  int exit = 9;
+      while(userChoice != exit)
+      {
+          switch (userChoice) {
+	          case (1):
+	        	  outputHurricanesByStormName();
+	            break;
+	          case (2):
+	            outputHurricanesByStormCategory();
+	            break;
+	          case (3):
+	            outputHurricanesByStormYear();
+	            break;
+	          case (4):
+	            outputHurricanesByStormMonth();
+	            break;
+            case(5):
+              showAverageCategory();
+              break;
+	          case (6):
+              showMostActiveYear();
+	            break;
+	          case (7):
+	            showAggregateByCategory();
+	            break;
+	          case (8):
+	            showAggregateByYear();
+	            break;
+          }
+          userChoice = mainMenu();
+      }
+      System.exit(0);
   }
 
   // Order of execution
   public void driver() {
     try {
-      run();
+    	Logic.readInInputFile();
+    	run();
     } catch (IOException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();

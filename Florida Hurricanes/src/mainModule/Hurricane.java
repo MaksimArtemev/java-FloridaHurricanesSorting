@@ -2,7 +2,7 @@ package mainModule;
 
 import java.util.*;
 
-public class Hurricane implements Comparable<Hurricane> {
+public class Hurricane {
 	protected String stormName;
 	protected int category;
 	protected int month;
@@ -11,7 +11,7 @@ public class Hurricane implements Comparable<Hurricane> {
 	protected String comparableAttribute;
 
 
-	/** Note to the grader:
+	/** Note to Dr.Slagle:
 	 * 
 	 * I went with a comparator decision for the ability to quickly adjust what field
 	 * to sort the Hurricane by. This gives us access to the following APIs:

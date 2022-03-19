@@ -69,17 +69,18 @@ public class Logic {
 
     serializedText.add("Florida Major Hurricanes 1950 - 2020");
     serializedText.add("\n\n");
-    serializedText.add(String.format("Sort by %s in %s Order", lastSort, sortOrder));
+    serializedText.add(String.format("Sort by %s in %s Order %n %n", lastSort, sortOrder));
 
     for (Hurricane hurricane : listOfHurricanes) {
-      serializedText.add( // TODO: Tab format this
+      serializedText.add(
         String.format(
-          "%s %s %d-%d-%d", 
-          hurricane.getStormName(), hurricane.getCategory(),
-          hurricane.getMonth(), hurricane.getDay(), hurricane.getYear()
-        )
+        		"%s %s %d-%d-%d %n",
+        		hurricane.getStormName(), hurricane.getCategory(),
+        		hurricane.getMonth(), hurricane.getDay(), hurricane.getYear()
+        		)
       ); 
     }
+    //"|%10d|", 101;  // Specifying length of integer  
 
     return serializedText;
   }

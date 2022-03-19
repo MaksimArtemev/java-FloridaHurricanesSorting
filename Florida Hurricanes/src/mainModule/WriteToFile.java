@@ -14,7 +14,7 @@ public class WriteToFile {
     FileWriter writer;
 
     try {
-      writer = new FileWriter(new File(OUTPUT_DIRECTORY + filename))
+      writer = new FileWriter(new File(OUTPUT_DIRECTORY + filename));
     } catch (IOException e) {
       System.out.print("Unable to read file: " + OUTPUT_DIRECTORY + filename);
       e.printStackTrace();
@@ -25,7 +25,7 @@ public class WriteToFile {
     for (String line: contents) {
       outputWriter.println(line);
     }
-
+    outputWriter.close();
     return true;
   }
 }

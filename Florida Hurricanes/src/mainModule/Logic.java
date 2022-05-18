@@ -1,3 +1,6 @@
+//Written By Maksim Artemev
+//Spring 2022
+
 package mainModule;
 
 import java.io.File;

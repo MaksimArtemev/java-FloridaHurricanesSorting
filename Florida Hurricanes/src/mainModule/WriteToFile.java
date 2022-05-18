@@ -1,3 +1,6 @@
+//Written By Maksim Artemev
+//Spring 2022
+
 package mainModule;
 
 import java.io.File;
@@ -25,7 +28,8 @@ public class WriteToFile {
     for (String line: contents) {
       outputWriter.println(line);
     }
-    outputWriter.close();
+
     return true;
+    
   }
 }

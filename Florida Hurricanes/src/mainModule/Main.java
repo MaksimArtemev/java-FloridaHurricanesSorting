@@ -1,5 +1,4 @@
 //Written By Maksim Artemev
-//Spring 2022
 
 package mainModule;
 

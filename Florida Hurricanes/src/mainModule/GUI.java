@@ -1,14 +1,12 @@
 //Written By Maksim Artemev
-//Spring 2022
 
 package mainModule;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-
 import javax.swing.JOptionPane; // Dialog Box
-//import java.util.StringTokenizer; // Array token
+
 
 public class GUI {
   // GUI::GUI
@@ -137,7 +135,6 @@ public class GUI {
     // Total number of major hurricanes listed: {totalStorms}
 
     // Total category 5 hurricanes: {categoryTotals[4]}
-    // Total category 4 hurricanes: {categoryTotals[3]}
     // ...
     // Total category 1 hurricanes: {categoryTotals[0]}
 	JOptionPane.showInputDialog("Major Florida Hurricanes 1950-2020\n\n" + "Aggregate Totals by category (Saffir-Simpson scale)\n\n" + "Total number of major hurricanes listed: " +

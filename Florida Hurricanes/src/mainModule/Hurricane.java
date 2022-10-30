@@ -1,5 +1,4 @@
 //Written By Maksim Artemev
-//Spring 2022
 
 package mainModule;
 
@@ -14,7 +13,7 @@ public class Hurricane {
 	protected String comparableAttribute;
 
 
-	/** Note to Dr.Slagle:
+	/** Note:
 	 * 
 	 * I went with a comparator decision for the ability to quickly adjust what field
 	 * to sort the Hurricane by. This gives us access to the following APIs:

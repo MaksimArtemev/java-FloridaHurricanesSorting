@@ -1,167 +1,155 @@
+//Written By Maksim Artemev
+
 package mainModule;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
-import javax.swing.JOptionPane;
 
 public class Logic {
-	private String stName;
-	private int intCat;
-	private int intMonth;
-	private int intDay;
-	private int intYear;
-	
-	
-	ArrayList<Hurricane> listOfHurricanes;
-	WriteToFile writeToFile;
 
-	public void readInInputFile() throws IOException
-	{
-	    // path to the inputFile
-	    File inputFile = new File("NamedFloridaHurricanes.txt");	// alternative way*** "C:\\SFC\\COP2552\\Project4\\NamedFloridaHurricanes.txt"
-	    Scanner scaner = new Scanner(inputFile);
-	    listOfHurricanes = new ArrayList<Hurricane>();
-	    
-	    while (scaner.hasNextLine())
-	    {
-	    	String line = scaner.nextLine();		//read in next line from input file (1st line on 1st iteration)
-	    	String[] array1 = line.split(",");		//splits storm data into name and rest
-			this.stName = array1[0];			    //holds the name of storm
-			String[] array2 = array1[1].split(":");	//splits rest of storm data  into category and date
-			String category = array2[0];			//holds the category of storm
-			String[] array3 = array2[1].split("/");	//splits the date into month, day, and year
-			String mm = array3[0];					//holds the category of storm
-			String dd = array3[1];					//holds the category of storm
-			String yyyy = array3[2];				//holds the category of storm
-			
-			this.intCat = Integer.parseInt(category);
-			this.intMonth = Integer.parseInt(mm);
-			this.intDay = Integer.parseInt(dd);
-			this.intYear = Integer.parseInt(yyyy);
-	    	
-			Hurricane tempData = new Hurricane(this.stName, this.intCat, this.intMonth, this.intDay, this.intYear);   //temporary holder for 1 line(1 hurricane data)
-			listOfHurricanes.add(tempData);		//add tempData to ArrayList listOfHurricanes
-			
-	    }
-	    scaner.close();
-		
-	    
-	}
-	
-/*
-	public class Hurricane implements Comparable<Hurricane>
-	{
-		String stName;
-		int intCat;
-		int intMonth;
-		int intDay;
-		int intYear;
-		Hurricane(String stName, int intCat, int intMonth, int intDay, int intYear)
-		{
-			this.stName = stName;
-			this.intCat = intCat;
-			this.intMonth = intMonth;
-			this.intDay = intDay;
-			this.intYear = intYear;
-		}
-		 
-		@Override
-		public int compareTo(Hurricane listOfHurricanes)
-		{
-			// we sort objects on the basis of Hurricane Category
-			return (this.intCat - listOfHurricanes.intCat);
-		}
-	}
-*/
+  public static final String FILEPATH = "NamedFloridaHurricanes.txt";
+  protected static List<Hurricane> listOfHurricanes;
+  protected static String lastSort;
+  protected static String sortOrder;
 
-	
-	//Logic::sortInputFileAscending
-	// Sort input file in ascending order (a-z)
-	public void sortInputFileAscending()
-	{
-		Collections.sort(listOfHurricanes);
-		JOptionPane.showInputDialog("Florida Major Hurricanes 1950-2020\n\n" + "Sort by Storm Name in Ascending order\n\n" + "Name\tCategory\tDate" + listOfHurricanes);
-		System.out.println("Content of ArrayLiList Ascending:"); 
-		System.out.println(listOfHurricanes);
-	}
-	
-	//Logic::sortInputFileDescending
-	// Sort input file in descending order (z-a)
-	public void sortInputFileDescending()
-	{
-		//ArrayList<Hurricane> sortHurricaneNameDescending = new ArrayList<Hurricane>();
-		//sortHurricaneNameDescending = Collections.sort(listOfHurricanes, Collections.reverseOrder());
-		Collections.sort(listOfHurricanes, Collections.reverseOrder());
-		JOptionPane.showInputDialog("Florida Major Hurricanes 1950-2020\n\n" + "Sort by Storm Name in Desscending order\n\n" + "Name\tCategory\tDate" + listOfHurricanes);
-		System.out.println("Content of ArrayLiList reverse:"); 
-		System.out.println(listOfHurricanes);
-	}
-	
-	public void driverSortedInputFileAscending() throws IOException
-	{
-		readInInputFile();
-		sortInputFileAscending();
-		//writeToFile.outputFileSortedByName();
-		
-	}
-	
-	public void driverSortedInputFileDescending() throws IOException
-	{
-		readInInputFile();
-		sortInputFileDescending();
-		//writeToFile.outputFileSortedByName();
-	}
-	
-	//Hurricane::totalByCategory
-	//find total by category
-	public void totalByCategory(ArrayList<Hurricane> listOfHurricanes)	//window 7
-	{
-		ArrayList<Integer> years = new ArrayList<Integer>();
-		int[][] totals = new int[years.size()][2];
-		for (int i = 0; i < listOfHurricanes.size(); i++)
-		{
-			int tempCategory = listOfHurricanes.get(i).getCat();
-			boolean found = false;
-			for (int j = 0; j < years.size(); j++)
-			{
-				if (tempCategory == years.get(i))
-				{
-					found = true;
-					break;
-				}else
-				{
-					found = false;
-				}
-			}
-		
-			if (found)
-			{
-				continue;
-			}else
-			{
-				years.add(tempCategory);
-			}
-		}
-		
-		for (int i = 0; i < years.size(); i++)
-		{
-			totals[i][0] = years.get(i);
-			int sum = 0;
-			for (int j = 0; j < listOfHurricanes.size(); j++)
-			{
-				if (listOfHurricanes.get(i).getCat() == totals[i][0])
-				{
-					sum++;
-				}
-			}
-			totals[i][1] = sum;
-		}
-	}
-	
-	
-	
+  public static void readInInputFile() throws IOException {
+    // path to the inputFile
+    Scanner scanner = new Scanner(new File(FILEPATH));
+    listOfHurricanes = new ArrayList<Hurricane>();
+
+    // Declare components outside of the for loop for performance boost
+    String[] row, rowComponents;
+    String stormName, rawCategory, rawMonth, rawDay, rawYear;
+    int category, month, day, year;
+
+    while (scanner.hasNextLine()) {
+      // Deserialize <NAME>,<CATEGORY>:<MM>/<DD>/<YYYY> into a Hurricane class
+
+      row = scanner.nextLine().split(","); // read in next line from input file (1st line on 1st iteration)
+      stormName = row[0]; // holds the name of storm
+      rowComponents = row[1].split(":"); // splits rest of storm data into category and date
+      rawCategory = rowComponents[0]; // holds the category of storm
+      rowComponents = rowComponents[1].split("/"); // splits the date into month, day, and year
+      rawMonth = rowComponents[0]; // holds the category of storm
+      rawDay = rowComponents[1]; // holds the category of storm
+      rawYear = rowComponents[2]; // holds the category of storm
+
+      category = Integer.parseInt(rawCategory);
+      month = Integer.parseInt(rawMonth);
+      day = Integer.parseInt(rawDay);
+      year = Integer.parseInt(rawYear);
+
+      listOfHurricanes.add(new Hurricane(stormName, category, month, day, year));
+    }
+    scanner.close();
+  }
+
+  public static void sortHurricanesBy(String attributeCode) {
+    sortHurricanesBy(attributeCode, true);
+  }
+
+  public static void sortHurricanesBy(String attributeCode, boolean ascendingOrder) {
+    Collections.sort(listOfHurricanes, new Hurricane.HurricaneComparator(attributeCode));
+    lastSort = attributeCode;
+
+    if (!ascendingOrder) {
+      Collections.reverse(listOfHurricanes);
+      sortOrder = "Descending";
+    } else {
+      sortOrder = "Ascending";
+    }
+  }
+
+  public static List<String> serializeHurricanes() {
+    List<String> serializedText = new ArrayList<String>();
+
+    serializedText.add("Florida Major Hurricanes 1950 - 2020");
+    serializedText.add("\n\n");
+    serializedText.add(String.format("Sort by %s in %s Order %n %n", lastSort, sortOrder));
+
+    for (Hurricane hurricane : listOfHurricanes) {
+      serializedText.add(
+        String.format(
+        		"%s %s %d-%d-%d %n",
+        		hurricane.getStormName(), hurricane.getCategory(),
+        		hurricane.getMonth(), hurricane.getDay(), hurricane.getYear()
+        		)
+      ); 
+    }
+    //"|%10d|", 101;  // Specifying length of integer  
+
+    return serializedText;
+  }
+
+  public static double averageCategory() {
+    double total = 0;
+    for (Hurricane hurricane : listOfHurricanes) {
+      total += hurricane.getCategory();
+    }
+    return total / listOfHurricanes.size();
+  }
+
+  public static List<Integer> mostActiveYears() {
+    Map<Integer, Integer> yearAggregation = aggregateByYear();
+    List<Integer> topYears = new ArrayList<Integer>();
+
+    int count, maxCount = 0;
+    for (Integer year : yearAggregation.keySet()) {
+      count = yearAggregation.get(year);
+      if (count > maxCount) {
+        topYears.clear();
+        maxCount = count;
+      }
+
+      if (count == maxCount) {
+        topYears.add(year);
+      }
+    }
+
+    return topYears;
+  }
+
+  public static int mostActiveYearCount() {
+    Map<Integer, Integer> yearAggregation = aggregateByYear();
+    int maxCount = 0;
+    for (Integer count : yearAggregation.values()) {
+      if (count > maxCount) {
+        maxCount = count;
+      }
+    }
+    return maxCount;
+  }
+
+  public static int[] aggregateByCategory() {
+    int[] categories = new int[5];
+
+    for (Hurricane hurricane : listOfHurricanes) {
+      categories[hurricane.getCategory() - 1]++;
+    }
+
+    return categories;
+
+  }
+
+  public static Map<Integer, Integer> aggregateByYear() {
+    Map<Integer, Integer> yearAggregation = new HashMap<Integer, Integer>();
+
+    int year;
+
+    for (Hurricane hurricane : listOfHurricanes) {
+      year = hurricane.getYear();
+      yearAggregation.putIfAbsent(year, 0);
+      yearAggregation.put(year, yearAggregation.get(year) + 1);
+    }
+
+    return yearAggregation;
+  }
+
 }
